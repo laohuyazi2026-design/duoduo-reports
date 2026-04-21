@@ -156,7 +156,7 @@ bundle exec jekyll serve
 # 開啟瀏覽器访问 http://localhost:4000
 ```
 
-每次修改後，重新執行 `bundle exec jekyll serve` 即可預覽。
+存檔後 Jekyll 會自動重建並刷新瀏覽器，無需重新執行指令。
 
 ---
 
