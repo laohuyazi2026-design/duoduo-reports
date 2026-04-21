@@ -64,11 +64,13 @@ duoduo-reports/
 
 - [ ] Jekyll 設定完成（_config.yml, Gemfile）
 - [ ] Just the Docs 主題設定
+- [ ] _config.yml 加入 `exclude: [slides/]`
 - [ ] index.md 轉成 Jekyll 首頁
-- [ ] reports/ 內的 Markdown 自動轉 HTML
+- [ ] reports/ 內的 Markdown 自動轉 HTML（確認有正確 front matter）
 - [ ] slides/ 內的 HTML 投影片可訪問
 - [ ] 手機響應式設計
 - [ ] 本地預覽功能
+- [ ] GitHub Actions workflow 確認正常運作
 
 ### 5.2 不包含（第二階段）
 
@@ -101,9 +103,17 @@ GitHub Pages 自動 Jekyll 構建（原生支援，無需 GitHub Actions）
 layout: default
 title: 敬鵬研究報告
 permalink: /reports/2026-04-21-jingpeng/
+parent: reports
 nav_order: 1
 ---
 ```
+
+**統一說明**：
+- `layout: default` — 必填，使用 Just the Docs 預設模板
+- `title` — 必填，報告標題
+- `permalink` — 建議填寫，確保 URL 稳定且全小寫
+- `parent: reports` — 必填，讓 Just the Docs 知道這是報告分類
+- `nav_order` — 數字越小排序越前面
 
 ### index.md 的實作說明
 
@@ -157,11 +167,15 @@ Slug（URL）行為：
 - 若要強制小寫，需在 front matter 加入 `permalink` 欄位
 - 建議統一使用小寫 slug，避免大小寫問題
 
+完整的 front matter 範例：
+
 ```yaml
 ---
 layout: default
 title: 敬鵬研究報告
 permalink: /reports/2026-04-21-jingpeng/
+parent: reports
+nav_order: 1
 ---
 ```
 
@@ -172,6 +186,15 @@ permalink: /reports/2026-04-21-jingpeng/
 - Ruby 3.0+（本地預覽用）
 - github-pages gem
 - GitHub Pages 設定：Build from branch `gh-pages`，folder `/ (root)`
+- GitHub Actions workflow（自動同步 main → gh-pages）
+
+### GitHub Actions 說明
+
+此 workflow 已存在，無需建立。用於：
+1. 當 main branch 有 push 時自動同步到 gh-pages
+2. 觸發 GitHub Pages 重新構建
+
+若要修改 workflow，位置在 `.github/workflows/`。
 
 ### Branch 部署流程
 
@@ -195,20 +218,14 @@ gh-pages 發布到 GitHub Pages
 
 slides/ 內的 HTML 投影片（如 Reveal.js）是**獨立格式**，不需要 Jekyll 處理。
 
-在 `_config.yml` 中需明確排除：
+在 `_config.yml` 中明確排除（**使用此方式**）：
 
 ```yaml
 exclude:
   - slides/
 ```
 
-或在每個投影片 HTML 開頭加入空的 front matter（讓 Jekyll 知道不要套 layout）：
-
-```yaml
----
-layout: null
----
-```
+此方式最安全，Jekyll 完全不會處理 slides/ 內的檔案。
 
 ---
 
