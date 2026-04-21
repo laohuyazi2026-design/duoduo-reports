@@ -89,7 +89,7 @@ duoduo-reports/
        ↓
 git push
        ↓
-GitHub Pages 自動 Jekyll 構建（原生支援，無需 GitHub Actions）
+GitHub Pages 自動 Jekyll 構建
        ↓
 發布到 GitHub Pages
        ↓
