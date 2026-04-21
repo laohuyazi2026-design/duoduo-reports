@@ -100,8 +100,30 @@ GitHub Pages 自動 Jekyll 構建（原生支援，無需 GitHub Actions）
 ---
 layout: default
 title: 敬鵬研究報告
+permalink: /reports/2026-04-21-jingpeng/
+nav_order: 1
 ---
 ```
+
+### index.md 的實作說明
+
+現有的 `index.md` 是多多的研究報告總索引（包含所有報告的列表）。
+
+轉換成 Jekyll 首頁需要的改動：
+1. 開頭加入 front matter（如上）
+2. 內容可以保留，只是 Jekyll 會自動套用 Just the Docs 的樣式
+
+### 報告列表頁的實作
+
+URL `/reports/` 的列表頁由 Just the Docs 的導航功能產生。
+
+需要在每個報告的 front matter 加入：
+```yaml
+parent: reports
+nav_order: 1
+```
+
+Just the Docs 會自動根據 `parent` 欄位產生側邊欄導航。
 
 ---
 
@@ -120,8 +142,15 @@ title: 敬鵬研究報告
 
 ## 8. 檔案命名規範
 
-Markdown 報告檔案：`{日期}-{研究主題}.md`
+Markdown 報告檔案：`{YYYY-MM-DD}-{股票代碼}-{研究主題}.md`
 例如：`2026-04-21-2355-JingPeng.md`
+
+說明：
+- `YYYY-MM-DD`：日期（如 2026-04-21）
+- `股票代碼`：台股代碼（如 2355 是敬鵬的代碼）
+- `研究主題`：研究的主題（如 JingPeng）
+
+**注意**：此格式與 Jekyll Posts（`_posts/`）不同。本系統使用普通 `reports/` 資料夾，URL 由 Jekyll 預設行為決定，不使用 Jekyll Posts 功能。
 
 Slug（URL）行為：
 - Jekyll 預設會保持檔案名稱的大小寫
@@ -143,6 +172,45 @@ permalink: /reports/2026-04-21-jingpeng/
 - Ruby 3.0+（本地預覽用）
 - github-pages gem
 - GitHub Pages 設定：Build from branch `gh-pages`，folder `/ (root)`
+
+### Branch 部署流程
+
+```
+feature/jekyll-site（開發分支）
+       ↓
+merge 到 main（經過測試後）
+       ↓
+main push 觸發 GitHub Actions
+       ↓
+GitHub Actions 自動同步到 gh-pages
+       ↓
+gh-pages 發布到 GitHub Pages
+```
+
+**注意**：gh-pages 由 GitHub Actions 自動維護，**請勿手動編輯 gh-pages**。
+
+---
+
+### slides/ 資料夾的 Jekyll 設定
+
+slides/ 內的 HTML 投影片（如 Reveal.js）是**獨立格式**，不需要 Jekyll 處理。
+
+在 `_config.yml` 中需明確排除：
+
+```yaml
+exclude:
+  - slides/
+```
+
+或在每個投影片 HTML 開頭加入空的 front matter（讓 Jekyll 知道不要套 layout）：
+
+```yaml
+---
+layout: null
+---
+```
+
+---
 
 ### 本地預覽指令
 
