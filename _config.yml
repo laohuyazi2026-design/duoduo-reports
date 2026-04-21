@@ -2,7 +2,7 @@
 
 title: 多多研究報告
 description: 財經研究報告部落格
-remote_theme: just-the-docs/just-the-docs
+theme: just-the-docs
 baseurl: "/duoduo-reports"
 url: "https://laohuyazi2026-design.github.io"
 
@@ -14,10 +14,6 @@ just_the_docs:
   aux_links:
     "GitHub":
       - "//github.com/laohuyazi2026-design/duoduo-reports"
-
-# Plugins
-plugins:
-  - jekyll-remote-theme
 
 # Exclude slides from Jekyll processing
 exclude:
